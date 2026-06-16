@@ -1,13 +1,23 @@
 Package: classR
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Title: A Minimal GitHub Classroom Replacement in R
+Version: 0.1.0
+Authors@R:
+    person("Cristian", "Roman Palacios", email = "cromanpa@arizona.edu",
+           role = c("aut", "cre"))
+Description: Runs a course on GitHub from R without GitHub Classroom. Each
+    student gets a new private repository in an organization with a set of
+    starter files. The student is added as a collaborator.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-URL: https://github.com/cromanpa94/classR
-BugReports: https://github.com/cromanpa94/classR/issues
+Imports:
+    gh,
+    jsonlite,
+    utils
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://datadiversitylab.github.io/ghclassroom/
+BugReports: https://github.com/datadiversitylab/ghclassroom/issues
