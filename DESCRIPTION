@@ -19,5 +19,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://datadiversitylab.github.io/ghclassroom/
+URL: https://datadiversitylab.github.io/ghclassroom/, https://datadiversitylab.github.io/classR/
 BugReports: https://github.com/datadiversitylab/ghclassroom/issues
