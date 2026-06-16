@@ -1,0 +1,88 @@
+# classR
+
+A minimal GitHub Classroom replacement in R. Run a course on GitHub
+without GitHub Classroom: each student gets a private repo in a given
+organization, starter files get pushed in, and the student is added as a
+collaborator.
+
+## Install
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("datadiversitylab/classR")
+```
+
+## How to use
+
+``` r
+
+library(classR)
+
+setup_github_token() # once: makes, checks, and saves a token
+set_org("ISTA421INFO521") # each session
+
+res <- assign_homework("roster.csv", "hw1_files", prefix = "hw1")
+check_homework("roster.csv", prefix = "hw1")
+update_homework("roster.csv", "hw1_fixes", prefix = "hw1")
+collect_homework("roster.csv", prefix = "hw1", dest = "submissions")
+```
+
+Your roster is a CSV with a column named `handle`:
+
+    student1
+    student2
+    student3
+
+## What each function does
+
+- [`setup_github_token()`](https://datadiversitylab.github.io/classR/reference/setup_github_token.md)
+  opens the token page with the right scopes, verifies the token
+  authenticates and carries `repo` and `admin:org`, and saves it to
+  `~/.Renviron`.
+- [`set_org()`](https://datadiversitylab.github.io/classR/reference/set_org.md)
+  sets the organization used downstream.
+- [`assign_homework()`](https://datadiversitylab.github.io/classR/reference/assign_homework.md)
+  creates a repo per student, pushes starter files, adds the student.
+- [`check_homework()`](https://datadiversitylab.github.io/classR/reference/check_homework.md)
+  reports which repos exist.
+- [`update_homework()`](https://datadiversitylab.github.io/classR/reference/update_homework.md)
+  pushes file changes into existing repos.
+- [`collect_homework()`](https://datadiversitylab.github.io/classR/reference/collect_homework.md)
+  clones or pulls every submission locally.
+
+## Limitations
+
+- The organization must already exist.
+- Files are pushed through the contents API, one file per commit.
+- [`update_homework()`](https://datadiversitylab.github.io/classR/reference/update_homework.md)
+  overwrites files at the given paths.
+- Collecting needs git on the system.
+- Adding a collaborator sends an invitation the student must accept
+  before they can push.
+
+# Package index
+
+## All functions
+
+- [`assign_homework()`](https://datadiversitylab.github.io/classR/reference/assign_homework.md)
+  : Create repositories for a whole roster
+- [`check_homework()`](https://datadiversitylab.github.io/classR/reference/check_homework.md)
+  : Check which student repositories exist
+- [`collect_homework()`](https://datadiversitylab.github.io/classR/reference/collect_homework.md)
+  : Collect students submission
+- [`create_student_repo()`](https://datadiversitylab.github.io/classR/reference/create_student_repo.md)
+  : Create one student's repository and push starter files
+- [`set_org()`](https://datadiversitylab.github.io/classR/reference/set_org.md)
+  : Set the GitHub organization
+- [`setup_github_token()`](https://datadiversitylab.github.io/classR/reference/setup_github_token.md)
+  : Set up and verify a GitHub token
+- [`update_homework()`](https://datadiversitylab.github.io/classR/reference/update_homework.md)
+  : Update files in existing student repositories
+
+# Articles
+
+### All vignettes
+
+- [Using
+  classR](https://datadiversitylab.github.io/classR/articles/using-classR.md):

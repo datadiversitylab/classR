@@ -1,0 +1,120 @@
+# Using classR
+
+This package runs a course on GitHub from R. It does not use GitHub
+Classroom. Each student gets a private repo in your organization, your
+starter files get pushed in, and the student is added as a collaborator.
+
+## Before you start
+
+You need an organization that already exists. The GitHub API cannot
+create one. Please make it once in the browser. You also need `git` on
+your system for collecting submissions.
+
+Your roster is a CSV with at least a column named `handle` holding
+GitHub usernames.
+
+    handle
+    student1
+    student2
+    student3
+
+## Token
+
+Run
+[`setup_github_token()`](https://datadiversitylab.github.io/classR/reference/setup_github_token.md)
+once. It opens the token page with the right scopes already selected,
+checks the token authenticates and carries `repo` and `admin:org`, then
+saves it to `~/.Renviron`.
+
+``` r
+
+library(classR)
+setup_github_token()
+```
+
+If the token is missing a scope, it tells you which one and saves
+nothing.
+
+## Set the organization
+
+Please do this for each session but replace it with your own
+organization’s name.
+
+``` r
+
+set_org("ISTA421INFO521")
+```
+
+## Assign
+
+Put your starter files in a folder within your working directory. Then,
+use `assign_homework` to push them to every student’s repo. The repo for
+each student is named `prefix-handle`, so `hw1-student1` and so on.
+
+``` r
+
+res <- assign_homework("roster.csv", "hw1_files", prefix = "hw1")
+res
+table(res$status)
+```
+
+`res` has one row per student with a `status` of `ok`, `exists`,
+`create_error`, or `setup_error`. Rows that already existed are skipped.
+You can run this again without trouble.
+
+``` r
+
+res[res$status %in% c("create_error", "setup_error"), ]
+```
+
+By default students get `push` access. Use `permission = "admin"` if you
+want students to manage their own repos.
+
+## Check
+
+Confirm every repo is there.
+
+``` r
+
+status <- check_homework("roster.csv", prefix = "hw1")
+status[!status$exists, ]
+```
+
+## Update files
+
+Use
+[`update_homework()`](https://datadiversitylab.github.io/classR/reference/update_homework.md)
+you need to fix or add a starter file after assigning, push it again.
+This function creates files that are missing and overwrites files that
+exist.
+
+``` r
+
+update_homework("roster.csv", "hw1_fixes", prefix = "hw1")
+```
+
+Note that updating overwrites whatever is at those paths within the
+repo. If a student already edited a file you push, your version replaces
+theirs in the latest commit. The old content stays in history.
+
+## Collect
+
+There’s a function that pull everyone’s work into a local folder.
+Submissions land under `dest/prefix/handle`. You can run it as many
+times as you need.
+
+``` r
+
+collect_homework("roster.csv", prefix = "hw1", dest = "submissions")
+```
+
+## Notes on how it works
+
+Note that files are pushed through the GitHub contents API, one file per
+call, each as its own commit. This is fine for small starter folders.
+For large or deeply nested projects it is slow and noisy in the history…
+
+Collecting uses git, not the API, since it moves whole repositories.
+
+Adding a collaborator sends an invitation. Students accept it from their
+GitHub email or notifications before they can push.
